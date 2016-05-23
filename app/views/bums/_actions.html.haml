@@ -1,0 +1,19 @@
+.actions
+  .action
+    = link_to 'Panhandle for one hour', panhandle_path, class: 'button'
+  .action
+    = form_tag controller: :bums, action: :sleep do
+      = label_tag(:hours, "Sleep for:")
+      = range_field_tag :hours, 1, { required: true, in: 1..8 }
+      = label_tag(:hours, "hours. (1-8)")
+      = submit_tag("Sleep")
+  - if @bum.present?
+    - Food.each do |food|
+      - next if food.price > @bum.money
+      .action
+        = form_tag controller: :bums, action: :eat, method: :post do
+          = hidden_field_tag :food_id, food.id
+          = submit_tag "Eat #{food.name} (#{number_to_currency(food.price / 100.0)}"
+    - if @bum.money >= 350
+      .action
+        = link_to 'Drink a 40', drink_beer_path, class: 'button'

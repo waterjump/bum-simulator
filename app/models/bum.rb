@@ -7,7 +7,7 @@ class Bum
   field :calories, type: Integer, default: 1000
   field :appeal, type: Integer, default: 10
   field :diary, type: Hash, default: {}
-  field :time, type: DateTime, default: DateTime.new(1983,4,3,8)
+  field :time, type: DateTime, default: BumSimulator::Application.config.starting_date_time
   field :life, type: Integer, default: 1000
 
   def self.find_or_initialize(user_id)
@@ -16,9 +16,9 @@ class Bum
 
   def panhandle
     gonna_die
-    earnings = (10 * appeal * luck * (life/1000.0)) # cents
+    earnings = (5 * appeal * luck * (life/1000.0)) # cents
     self.money += earnings if earnings > 0
-    write_in_diary("panhandled for one hour and made #{format_money(earnings)}.")
+    write_in_diary("You panhandled for one hour and made #{format_money(earnings)}.")
     pass_one_hour
     save
   end
@@ -28,16 +28,17 @@ class Bum
     self.energy = 16 if self.energy > 16
     get_robbed_in_sleep
     s = hours > 1 ? 's' : ''
-    write_in_diary("slept for #{hours} hour#{s}.")
+    write_in_diary("You slept for #{hours} hour#{s}.")
     hours.times { pass_one_hour(100, true) }
     save
   end
 
   def drink_beer
     return unless check_price(250)
-    self.money -= 250
+    self.money -= 350
     self.life += 200
-    write_in_diary("drank a beer.")
+    self.life = 1000 if self.life >= 1000
+    write_in_diary("You drank a beer.")
     save
   end
 
@@ -45,8 +46,12 @@ class Bum
     # TODO
   end
 
-  def eat(food)
-    # TODO
+  def eat(food_id)
+    food = Food.find(food_id)
+    self.money -= food.price
+    self.calories += food.calories
+    write_in_diary("You ate a #{food.name}.")
+    save
   end
 
   private
@@ -57,12 +62,12 @@ class Bum
 
   def gonna_die
     return unless self.life <= 300
-    write_in_diary("feel like death.")
+    write_in_diary("You feel like death.")
   end
 
   def check_price(price)
     result = price <= self.money
-    write_in_diary('don\'t have enough money for that.')
+    write_in_diary('You don\'t have enough money for that.')
     result
   end
 
@@ -74,7 +79,7 @@ class Bum
     return if luck >= 0.74 # One in 14 chance
     amount = self.money * 0.4 * luck
     self.money -= amount
-    write_in_diary("got robbed while asleep for #{format_money(amount)}! Fuck!")
+    write_in_diary("You got robbed while asleep for #{format_money(amount)}! Fuck!")
   end
 
   def pass_one_hour(calories = 100, sleeping = false)
@@ -92,8 +97,12 @@ class Bum
   end
 
   def write_in_diary(entry)
-    puts "#{time.strftime('%b %-d, %Y')}: You #{entry}"
-    diary.merge!("#{time.to_s}" => entry)
+    puts "#{time.strftime('%b %-d, %Y')}: #{entry}"
+    if diary["#{time.to_s}"].present?
+      diary["#{time.to_s}"] += "  #{entry}"
+    else
+      diary.merge!("#{time.to_s}" => entry)
+    end
   end
 
   def luck

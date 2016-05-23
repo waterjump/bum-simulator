@@ -33,21 +33,25 @@ class BumsController < ApplicationController
 
   def panhandle
     @bum.panhandle
-    render 'show'
+    render :show
   end
 
   def sleep
     @bum.sleep(params['hours'].to_i)
-    render 'show'
+    render :show
   end
 
   def drink_beer
+    @bum.drink_beer
+    render :show
   end
 
   def rummage
   end
 
   def eat
+    @bum.eat(params['food_id'])
+    render :show
   end
 
   protected

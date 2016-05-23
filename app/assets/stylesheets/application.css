@@ -13,3 +13,52 @@
  *= require_tree .
  *= require_self
  */
+
+body, select, input {
+font-family:"Courier New",courier,monospace;
+line-height:150%;
+}
+
+.container {
+  width: 600px;
+  margin: 0 auto 0 auto;
+}
+
+.stats {
+  margin-bottom: 20px;
+}
+
+.button {
+  font: 11px Arial;
+  text-decoration: none;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+  border-radius: 4px;
+}
+
+.story {
+  min-height: 60px;
+}
+
+.stat {
+  margin: 5px;
+}
+
+.meter {
+  border: 1px solid black;
+  width: 250px;
+  height: 10px;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
+.fill {
+  margin: 0;
+  height: 100%;
+  background: #999;
+}

@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   # Example of named route that can be invoked with purchase_url(id: product.id)
   get 'panhandle' => 'bums#panhandle', as: :panhandle
   post 'sleep' => 'bums#sleep', as: :sleep
+  post 'eat' => 'bums#eat', as: :eat
+  get 'drink-beer' => 'bums#drink_beer', as: :drink_beer
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   resources :bums, except: [:index]

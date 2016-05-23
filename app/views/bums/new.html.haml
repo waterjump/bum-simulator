@@ -1,12 +1,10 @@
-%p You wake up in a gutter in Philadelphia PA.  The year is 1983.  The last thing you remember is rocking back and forth in a mental hospital, shreaking and drooling.  Society has left you to die.  What next?
+%p.story You wake up in a gutter in Philadelphia PA.  The year is 1983.  The last thing you remember is rocking back and forth in a mental hospital, shrieking and drooling.  Society has left you to die.  What next?
 
-%p= "Life: 1000/1000"
-%p= "Energy: 16/16"
-%p= "Hunger: 1000/2000"
+.stats
+  .stat= BumSimulator::Application.config.starting_date_time.strftime('%b %-d, %Y, %l %p')
+  .stat= "Energy: 16/16"
+  .stat= "Hunger: 1000/2000"
+  .stat= "Life: 1000/1000"
+  .stat= "Money: #{number_to_currency(0)}"
 
-= link_to 'Panhandle for one hour', panhandle_path
-= form_tag controller: :bums, action: :sleep do
-  = label_tag(:hours, "Sleep for:")
-  = range_field_tag :hours, 1, { required: true, in: 1..16 }
-  = label_tag(:hours, "hours. (1-16)")
-  = submit_tag("Sleep")
+= render 'actions'
