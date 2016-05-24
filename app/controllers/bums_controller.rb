@@ -7,24 +7,17 @@ class BumsController < ApplicationController
   end
 
   def show
-    Rails.logger.info "69BOT - show"
-    Rails.logger.info "69BOT - session: #{session.inspect}"
     if current_user.present?
-      Rails.logger.info "69BOT - user present"
       @bum = Bum.find_or_initialize(current_user.id)
     elsif session[:bum_id].present?
-      Rails.logger.info "69BOT - session present"
       @bum = Bum.find(session[:bum_id])
     else
       redirect_to new_bum_path
     end
-
   end
 
   def create
-    Rails.logger.info "69BOT - create"
     @bum = Bum.create!
-    Rails.logger.info "69BOT - @bum.inspect: #{@bum.inspect}"
     session[:bum_id] = @bum.id
     redirect_to bum_path
   end
@@ -41,16 +34,11 @@ class BumsController < ApplicationController
     render :show
   end
 
-  def drink_beer
-    @bum.drink_beer
-    render :show
-  end
-
   def rummage
   end
 
-  def eat
-    @bum.eat(params['food_id'])
+  def consume
+    @bum.consume(params['grocery_id'])
     render :show
   end
 

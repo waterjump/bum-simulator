@@ -33,12 +33,17 @@ class Bum
     save
   end
 
-  def drink_beer
-    return unless check_price(250)
-    self.money -= 350
-    self.life += 200
-    self.life = 1000 if self.life >= 1000
-    write_in_diary("You drank a beer.")
+  def consume(grocery_id)
+    grocery = Grocery.find(grocery_id)
+    return unless check_price(grocery.price)
+    self.money -= grocery.price
+    self.calories += grocery.calories if grocery.calories != 0
+    self.energy += grocery.energy if grocery.energy != 0
+    self.life += grocery.life if grocery.life != 0
+    regulate_metrics
+    write_in_diary(
+      "You #{grocery.verb} #{grocery_article(grocery)} #{grocery.name}."
+    )
     save
   end
 
@@ -56,6 +61,16 @@ class Bum
 
   private
 
+  def regulate_metrics
+    self.life = 1000 if self.life > 1000
+    self.energy = 16 if self.energy > 16
+    self.calories = 2000 if self.calories > 2000
+  end
+
+  def grocery_article(grocery)
+    grocery.countable ? 'a' : 'some'
+  end
+
   def health_check
 
   end
@@ -67,7 +82,7 @@ class Bum
 
   def check_price(price)
     result = price <= self.money
-    write_in_diary('You don\'t have enough money for that.')
+    write_in_diary('You don\'t have enough money for that.') unless result
     result
   end
 
