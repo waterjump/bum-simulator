@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'panhandle' => 'bums#panhandle', as: :panhandle
   post 'sleep' => 'bums#sleep', as: :sleep
   post 'consume' => 'bums#consume', as: :consume
+  get 'rummage' => 'bums#rummage', as: :rummage
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   resources :bums, except: [:index]

@@ -35,6 +35,8 @@ class BumsController < ApplicationController
   end
 
   def rummage
+    @bum.rummage
+    render :show
   end
 
   def consume

@@ -1,6 +1,8 @@
 namespace :seed do
   desc 'add food items'
   task groceries: :environment do
+    Grocery.delete_all
+
     Grocery.create!(
       name: 'pretzel',
       price: 50,

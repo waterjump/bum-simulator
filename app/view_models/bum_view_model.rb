@@ -1,0 +1,2 @@
+class BumViewModel < ApplicationViewModel
+end

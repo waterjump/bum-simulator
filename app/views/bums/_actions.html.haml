@@ -2,6 +2,8 @@
   .action
     = link_to 'Panhandle for one hour', panhandle_path, class: 'button'
   .action
+    = link_to 'Rummage for one hour', rummage_path, class: 'button'
+  .action
     = form_tag controller: :bums, action: :sleep do
       = label_tag(:hours, "Sleep for:")
       = range_field_tag :hours, 1, { required: true, in: 1..8 }
