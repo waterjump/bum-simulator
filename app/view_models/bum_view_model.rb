@@ -1,7 +1,7 @@
 class BumViewModel < ApplicationViewModel
   def day_symbol
-    return '☀' if model.time.hour >= 6 && model.time.hour <= 19
-    '☽'
+    return "\u2600" if model.time.hour >= 6 && model.time.hour <= 19
+    "\u263D"
   end
 
   def date_time

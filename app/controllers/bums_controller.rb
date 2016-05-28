@@ -27,22 +27,22 @@ class BumsController < ApplicationController
   # Game actions
 
   def panhandle
-    @bum.panhandle
+    Bum::Action::Panhandle.new(@bum).perform
     render :show
   end
 
   def sleep
-    @bum.sleep(params['hours'].to_i)
+    Bum::Action::Sleep.new(@bum, hours: params['hours'].to_i).perform
     render :show
   end
 
   def rummage
-    @bum.rummage
+    Bum::Action::Rummage.new(@bum).perform
     render :show
   end
 
   def consume
-    @bum.consume(params['grocery_id'])
+    Bum::Action::Consume.new(@bum, grocery_id: params['grocery_id']).perform
     render :show
   end
 
