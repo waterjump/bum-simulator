@@ -22,5 +22,24 @@ namespace :seed do
       sleep: false,
       panhandle: false
     )
+
+    Occurrence.create!(
+      name: 'Buy teens beer',
+      description: 'You bought some beer for some teens that asked you.  They gave you some cash for your help.',
+      chance: 50,
+      rummage: false,
+      sleep: false,
+      panhandle: true,
+      money: 200
+    )
+
+    Occurrence.create!(
+      name: 'Bible person',
+      description: 'Some relogious person approached you and was saying some crap about the Bible and Jesus and stuff.  It was of no apparent help.',
+      chance: 50,
+      rummage: false,
+      sleep: false,
+      panhandle: true,
+    )
   end
 end

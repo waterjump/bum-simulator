@@ -9,11 +9,11 @@ class Occurrence
   field :energy, type: Integer, default: 0
   field :calories, type: Integer, default: 0
   field :life, type: Integer, default: 0
+  field :money, type: Integer, default: 0
   field :one_off, type: Boolean, default: false
   field :panhandle, type: Boolean, default: true
   field :rummage, type: Boolean, default: true
   field :sleep, type: Boolean, default: true
-
 
   def occur?
     (1..1000).to_a.sample % chance == 0

@@ -11,9 +11,17 @@ namespace :seed do
 
     Item.create!(
       name: 'Cardboard sign',
-      description: 'a cardboard sign that has "Homles and hungrie Dog Bless scrawled on it.',
+      description: 'a cardboard sign that has "Homless and hungrie - Dog Bless U" scrawled on it.',
       rummageable: true,
       rummage_chance: 2,
+      appeal: 1,
+    )
+
+    Item.create!(
+      name: 'Schizophrenia book',
+      description: 'a book called "Schizophrenia and You: A Beginner\'s Guide to Controlling your Paranoid Ramblings"',
+      rummageable: true,
+      rummage_chance: 30,
       appeal: 1,
     )
   end

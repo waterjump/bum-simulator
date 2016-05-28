@@ -34,6 +34,7 @@ class Bum
   def sleep(hours)
     before = self.energy
     change_energy(hours * 2)
+    regulate_metrics
     after = self.energy
     robbed_in_sleep
     s = hours > 1 ? 's' : ''
@@ -74,7 +75,7 @@ class Bum
 
   def calculate_earnings
     earnings = (5 * total_appeal * luck * life_factor * traffic)
-    self.money += earnings if earnings > 0
+    change_vitals(0, 0, 0, earnings)
     write_in_diary(
       'You panhandled for one hour.',
       {money: earnings}
@@ -97,8 +98,16 @@ class Bum
 
   def apply_occurrence(occ)
     return unless occ.available_date <= time
-    write_in_diary(occ.description)
-    change_vitals(occ.calories, occ.energy, occ.life)
+    write_in_diary(
+      occ.description,
+      {
+        calories: occ.calories,
+        energy: occ.energy,
+        life: occ.life,
+        money: occ.money
+      }
+    )
+    change_vitals(occ.calories, occ.energy, occ.life, occ.money)
   end
 
   def change_vitals(cal = 0, nrg = 0, lif = 0, mon = 0)
@@ -206,10 +215,10 @@ class Bum
 
   def robbed_in_sleep
     return unless rand1000 % 14 == 0
-    amount = self.money * 0.4 * luck
-    change_money(amount * -1)
+    amount = self.money * 0.4 * luck * -1
+    change_money(amount)
     regulate_metrics
-    self.total_robbed += amount
+    self.total_robbed += amount * -1
     write_in_diary(
       'You got robbed while asleep!  Fuck!',
       {money: amount}
@@ -230,10 +239,16 @@ class Bum
 
   def pass_one_hour(cal = 100, sleeping = false)
     self.time += 1.hour
-    self.energy -= 1 unless sleeping
-    self.calories -= cal
+    change_energy(-1) unless sleeping
+    sleep_stomach(cal, sleeping)
     out_of_energy
     out_of_calories(cal)
+  end
+
+  def sleep_stomach(cal, sleeping)
+    cal_start = self.calories
+    change_calories(cal * -1)
+    change_calories(10) if sleeping && self.calories == 0 && cal_start > 400
   end
 
   def write_in_diary(text = '', metrics = {})
