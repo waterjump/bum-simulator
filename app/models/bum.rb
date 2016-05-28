@@ -24,40 +24,6 @@ class Bum
     where(user_id: user_id).first || create!(diary: Bum::Diary.create!)
   end
 
-  def change_vitals(cal = 0, nrg = 0, lif = 0, mon = 0)
-    change_calories(cal)
-    change_energy(nrg)
-    change_life(lif)
-    change_money(mon)
-    regulate_metrics
-  end
-
-  def change_calories(cal)
-    return if cal == 0
-    self.calories += cal
-  end
-
-  def change_energy(nrg)
-    return if nrg == 0
-    self.energy += nrg
-  end
-
-  def change_life(lif)
-    return if lif == 0
-    self.life += lif
-  end
-
-  def change_money(mon)
-    return if mon == 0
-    self.money += mon
-  end
-
-  def regulate_metrics
-    self.life = 1000 if life > 1000
-    self.energy = 16 if energy > 16
-    self.calories = 600 if calories > 600
-  end
-
   def total_appeal
     item_appeal =
       items.inject(0) do |memo, item_id|

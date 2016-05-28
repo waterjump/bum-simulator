@@ -2,51 +2,42 @@ class Bum
   class Action
     def initialize(bum, _options = {})
       @bum = bum
+      @result = Bum::Action::Result.new(bum)
     end
 
     def calculate_occurrences(action)
       Occurrence.each do |occ|
-        next unless occ.occur? && occ.send(action)
+        next unless occ.occur?(@bum.time) && occ.send(action)
         apply_occurrence(occ)
       end
     end
 
     def apply_occurrence(occ)
-      return unless occ.available_date <= @bum.time
-      write_in_diary(
-        occ.description,
+      occ_hash = {
         calories: occ.calories,
         energy: occ.energy,
         life: occ.life,
         money: occ.money
+      }
+      write_in_diary(
+        occ.description,
+        occ_hash
       )
-      @bum.change_vitals(occ.calories, occ.energy, occ.life, occ.money)
+      @result.update(occ_hash)
     end
 
     def pass_one_hour(cal = 100, sleeping = false)
-      @bum.time += 1.hour
-      @bum.change_energy(-1) unless sleeping
+      @result.update(time: 1.hour)
+      @result.update(energy: -1) unless sleeping
       sleep_stomach(cal, sleeping)
-      out_of_energy
-      out_of_calories(cal)
     end
 
     def sleep_stomach(cal, sleeping)
       cal_start = @bum.calories
-      @bum.change_calories(cal * -1)
-      @bum.change_calories(10) if sleeping && @bum.calories == 0 && cal_start > 400
-    end
-
-    def out_of_energy
-      return if @bum.energy >= 0
-      @bum.life -= 20
-      @bum.energy = 0
-    end
-
-    def out_of_calories(cal)
-      return if @bum.calories >= 0
-      @bum.life -= cal * 0.2
-      @bum.calories = 0
+      @result.update(calories: (cal * -1))
+      if sleeping && @bum.calories <= 0 && cal_start > 400
+        @result.update(calories: 10)
+      end
     end
 
     def write_in_diary(text = '', metrics = {})

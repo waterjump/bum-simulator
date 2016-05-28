@@ -1,5 +1,5 @@
 class Rummage < Bum::Action
-  def initialize(bum, options = {})
+  def initialize(bum, _options = {})
     super
     @action_name = :rummage
   end
@@ -10,14 +10,14 @@ class Rummage < Bum::Action
     calculate_occurrences(@action_name)
     find_items
     pass_one_hour(200)
-    @bum.save!
+    @result.apply
   end
 
   def find_cans
     cans = rand1000 % 10
     return unless cans > 0
     earnings = cans * 5
-    @bum.money += earnings
+    @result.update(money: earnings)
     write_in_diary(
       "You found #{cans} cans and cashed them in.",
       money: earnings
@@ -33,7 +33,7 @@ class Rummage < Bum::Action
 
   def add_item(item)
     return if @bum.items.include?(item.id.to_s)
-    @bum.items << item.id.to_s
+    @result.update(items: item.id.to_s)
     item_description = item.description || item.name
     write_in_diary(
       "You found #{item_description}",

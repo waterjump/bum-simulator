@@ -15,7 +15,11 @@ class Occurrence
   field :rummage, type: Boolean, default: true
   field :sleep, type: Boolean, default: true
 
-  def occur?
-    (1..1000).to_a.sample % chance == 0
+  def occur?(time)
+    valid?(time) && (1..1000).to_a.sample % chance == 0
+  end
+
+  def valid?(time)
+    available_date >= time
   end
 end
