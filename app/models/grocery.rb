@@ -10,8 +10,8 @@ class Grocery
   field :food, type: Boolean, default: true
   field :verb, type: String
   field :availability,
-    type: Hash,
-    default: ->{ always_available }
+        type: Hash,
+        default: -> { always_available }
 
   def always_available
     (0..23).inject({}) do |memo, hour|

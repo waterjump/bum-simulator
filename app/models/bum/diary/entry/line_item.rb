@@ -3,7 +3,9 @@ class Bum
     class Entry
       class LineItem
         include Mongoid::Document
-        embedded_in :entry, class_name: 'Bum::Diary::Entry', inverse_of: :line_items
+        embedded_in :entry,
+                    class_name: 'Bum::Diary::Entry',
+                    inverse_of: :line_items
 
         field :text, type: String
         field :energy, type: Integer

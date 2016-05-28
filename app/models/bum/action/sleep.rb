@@ -1,5 +1,4 @@
 class Sleep < Bum::Action
-
   def initialize(bum, options = {})
     super
     @action_name = :sleep

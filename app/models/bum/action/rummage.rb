@@ -1,5 +1,4 @@
 class Rummage < Bum::Action
-
   def initialize(bum, options = {})
     super
     @action_name = :rummage

@@ -1,5 +1,4 @@
 class Consume < Bum::Action
-
   def initialize(bum, options = {})
     super
     @action_name = :consume

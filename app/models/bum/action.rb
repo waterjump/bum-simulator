@@ -1,6 +1,6 @@
 class Bum
   class Action
-    def initialize(bum, options = {})
+    def initialize(bum, _options = {})
       @bum = bum
     end
 
@@ -12,7 +12,7 @@ class Bum
     end
 
     def apply_occurrence(occ)
-    return unless occ.available_date <= @bum.time
+      return unless occ.available_date <= @bum.time
       write_in_diary(
         occ.description,
         calories: occ.calories,
