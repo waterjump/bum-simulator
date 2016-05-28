@@ -14,3 +14,13 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+function updateSleepValue(val) {
+  var s;
+  if (val > 1) {
+    s = 's';
+  } else {
+    s = '';
+  }
+  document.getElementById('sleep-button').value='Sleep for ' + val + ' hour' + s;
+}

@@ -26,6 +26,6 @@
       - @bum.diary.entries.last.line_items.each do |line|
         .text= line.text
         - if line.money != 0
-          .change= " #{@bum.line_mark(line.money)}You #{line.money > 0 ? 'made' : 'lost'} #{number_to_currency(line.money / 100.0)}."
+          .change= " #{@bum.line_mark(line.money)}You #{line.money > 0 ? 'made' : 'lost'} #{number_to_currency(line.money.abs / 100.0)}."
         - if line.appeal != 0
           .change= " #{@bum.line_mark(line.appeal)}You #{line.appeal > 0 ? 'gained' : 'lost'} #{line.appeal} appeal."

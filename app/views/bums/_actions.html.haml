@@ -5,12 +5,10 @@
     = link_to 'Rummage for one hour', rummage_path, class: 'button'
   .action
     = form_tag controller: :bums, action: :sleep do
-      = label_tag(:hours, "Sleep for:")
-      = range_field_tag :hours, 1, { required: true, in: 1..8 }
-      = label_tag(:hours, "hours. (1-8)")
-      = submit_tag("Sleep")
+      = submit_tag("Sleep for 1 hour", id: 'sleep-button')
+      = range_field_tag :hours, 1, { required: true, in: 1..8, onChange: 'updateSleepValue(this.value)' }
   - if @bum.present?
-    - Grocery.each do |grocery|
+    - Grocery.order_by(price: 'asc').each do |grocery|
       - grocery_vm = GroceryViewModel.wrap(grocery)
       - next unless grocery_vm.purchaseable?(@bum.money)
       .action

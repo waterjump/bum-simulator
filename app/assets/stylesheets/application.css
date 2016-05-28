@@ -19,6 +19,10 @@ font-family:"Courier New",courier,monospace;
 line-height:150%;
 }
 
+#sleep-button {
+  width: 100px;
+}
+
 .container {
   width: 800px;
   margin: 0 auto 0 auto;
