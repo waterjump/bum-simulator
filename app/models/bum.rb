@@ -32,15 +32,15 @@ class Bum
   end
 
   def sleep(hours)
-    before = self.energy
+    before = energy
     change_energy(hours * 2)
     regulate_metrics
-    after = self.energy
+    after = energy
     robbed_in_sleep
     s = hours > 1 ? 's' : ''
     write_in_diary(
       "You slept for #{hours} hour#{s}.",
-      {energy: (after - before)}
+      energy: (after - before)
     )
     hours.times { pass_one_hour(100, true) }
     save!
@@ -49,15 +49,18 @@ class Bum
   def consume(grocery_id)
     grocery = Grocery.find(grocery_id)
     return unless check_price(grocery.price)
-    change_vitals(grocery.calories, grocery.energy, grocery.life, (grocery.price * -1))
+    change_vitals(
+      grocery.calories,
+      grocery.energy,
+      grocery.life,
+      (grocery.price * -1)
+    )
     write_in_diary(
       "You #{grocery.verb} #{grocery_article(grocery)} #{grocery.name}.",
-      {
-        money: grocery.price * -1,
-        calories: grocery.calories,
-        life: grocery.life,
-        energy: grocery.energy
-      }
+      money: grocery.price * -1,
+      calories: grocery.calories,
+      life: grocery.life,
+      energy: grocery.energy
     )
     save!
   end
@@ -78,7 +81,7 @@ class Bum
     change_vitals(0, 0, 0, earnings)
     write_in_diary(
       'You panhandled for one hour.',
-      {money: earnings}
+      money: earnings
     )
   end
 
@@ -100,12 +103,10 @@ class Bum
     return unless occ.available_date <= time
     write_in_diary(
       occ.description,
-      {
-        calories: occ.calories,
-        energy: occ.energy,
-        life: occ.life,
-        money: occ.money
-      }
+      calories: occ.calories,
+      energy: occ.energy,
+      life: occ.life,
+      money: occ.money
     )
     change_vitals(occ.calories, occ.energy, occ.life, occ.money)
   end
@@ -145,7 +146,7 @@ class Bum
     self.money += earnings
     write_in_diary(
       "You found #{cans} cans and cashed them in.",
-      {money: earnings}
+      money: earnings
     )
   end
 
@@ -164,7 +165,7 @@ class Bum
     item_name = item.description || item.name
     write_in_diary(
       "You found #{item_name}",
-      {appeal: item.appeal}
+      appeal: item.appeal
     )
   end
 
@@ -221,7 +222,7 @@ class Bum
     self.total_robbed += amount * -1
     write_in_diary(
       'You got robbed while asleep!  Fuck!',
-      {money: amount}
+      money: amount
     )
   end
 
