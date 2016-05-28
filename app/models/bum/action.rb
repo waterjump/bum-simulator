@@ -19,10 +19,7 @@ class Bum
         life: occ.life,
         money: occ.money
       }
-      write_in_diary(
-        occ.description,
-        occ_hash
-      )
+      write_in_diary(occ.description, occ_hash)
       @result.update(occ_hash)
     end
 
