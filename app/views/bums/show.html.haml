@@ -2,7 +2,14 @@
   %h2 You are dead.
   = link_to 'Play again', new_bum_path
 - else
-  %p.story= @bum.diary.values.last
+  .story
+    - @bum.diary.entries.last.line_items.each do |line|
+      .text= line.text
+      - if line.money != 0
+        .change= " #{line.money > 0 ? ' + ' : ' - '}You #{line.money > 0 ? 'made' : 'lost'} #{number_to_currency(line.money / 100.0)}."
+      - if line.appeal != 0
+        .change= " #{line.appeal > 0 ? ' + ' : ' - '}You #{line.appeal > 0 ? 'gained' : 'lost'} #{line.appeal} appeal."
+
 
   .stats
     - symbol =

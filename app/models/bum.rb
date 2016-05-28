@@ -15,9 +15,12 @@ class Bum
   field :total_panhandled, type: Integer, default: 0
   field :total_robbed, type: Integer, default: 0
   field :items, type: Array, default: []
+  embeds_one :diary,
+    class_name: 'Bum::Diary',
+    cascade_callbacks: true
 
   def self.find_or_initialize(user_id)
-    where(user_id: user_id).first || create!
+    where(user_id: user_id).first || create!(diary: Bum::Diary.create!)
   end
 
   def panhandle
@@ -25,17 +28,21 @@ class Bum
     calculate_occurrences(__method__.to_sym)
     calculate_earnings
     pass_one_hour
-    save
+    save!
   end
 
   def sleep(hours)
-    self.energy += hours * 2
-    self.energy = 16 if self.energy > 16
+    before = self.energy
+    change_energy(hours * 2)
+    after = self.energy
     robbed_in_sleep
     s = hours > 1 ? 's' : ''
-    write_in_diary("You slept for #{hours} hour#{s}.")
+    write_in_diary(
+      "You slept for #{hours} hour#{s}.",
+      {energy: (after - before)}
+    )
     hours.times { pass_one_hour(100, true) }
-    save
+    save!
   end
 
   def consume(grocery_id)
@@ -43,18 +50,24 @@ class Bum
     return unless check_price(grocery.price)
     change_vitals(grocery.calories, grocery.energy, grocery.life, (grocery.price * -1))
     write_in_diary(
-      "You #{grocery.verb} #{grocery_article(grocery)} #{grocery.name}."
+      "You #{grocery.verb} #{grocery_article(grocery)} #{grocery.name}.",
+      {
+        money: grocery.price * -1,
+        calories: grocery.calories,
+        life: grocery.life,
+        energy: grocery.energy
+      }
     )
-    save
+    save!
   end
 
   def rummage
+    write_in_diary('You rummaged for an hour.')
     find_cans
     calculate_occurrences(__method__.to_sym)
     find_items
-    write_in_diary('You rummaged for an hour.')
     pass_one_hour(200)
-    save
+    save!
   end
 
   private
@@ -63,7 +76,8 @@ class Bum
     earnings = (5 * total_appeal * luck * life_factor * traffic)
     self.money += earnings if earnings > 0
     write_in_diary(
-      "You panhandled for one hour and made #{format_money(earnings)}."
+      'You panhandled for one hour.',
+      {money: earnings}
     )
   end
 
@@ -121,7 +135,8 @@ class Bum
     earnings = cans * 5
     self.money += earnings
     write_in_diary(
-      "You found #{cans} cans and cashed them in for #{format_money(earnings)}."
+      "You found #{cans} cans and cashed them in.",
+      {money: earnings}
     )
   end
 
@@ -139,7 +154,8 @@ class Bum
     items << item.id.to_s
     item_name = item.description || item.name
     write_in_diary(
-      "You found #{item_name}.  Appeal increased by #{item.appeal}!"
+      "You found #{item_name}",
+      {appeal: item.appeal}
     )
   end
 
@@ -192,9 +208,11 @@ class Bum
     return unless rand1000 % 14 == 0
     amount = self.money * 0.4 * luck
     change_money(amount * -1)
+    regulate_metrics
     self.total_robbed += amount
     write_in_diary(
-      "You got robbed while asleep for #{format_money(amount)}! Fuck!"
+      'You got robbed while asleep!  Fuck!',
+      {money: amount}
     )
   end
 
@@ -218,12 +236,12 @@ class Bum
     out_of_calories(cal)
   end
 
-  def write_in_diary(entry)
-    if diary[time.to_s].present?
-      diary[time.to_s] += " | #{entry}"
-    else
-      diary.merge!(time.to_s => entry)
-    end
+  def write_in_diary(text = '', metrics = {})
+    return if text.empty?
+    diary.save!
+    entry = diary.current_entry(self.time)
+    entry.add_line_item(text, metrics)
+    diary.save!
   end
 
   def luck
