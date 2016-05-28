@@ -18,12 +18,15 @@ class Bum
   embeds_one :diary,
     class_name: 'Bum::Diary',
     cascade_callbacks: true
+  belongs_to :location,
+    class_name: 'Location'
 
   def self.find_or_initialize(user_id)
     where(user_id: user_id).first || create!(diary: Bum::Diary.create!)
   end
 
   def panhandle
+    ensure_location
     gonna_die
     calculate_occurrences(__method__.to_sym)
     calculate_earnings
@@ -77,7 +80,10 @@ class Bum
   private
 
   def calculate_earnings
-    earnings = (5 * total_appeal * luck * life_factor * traffic)
+    earnings = (
+      location.business * location.traffic_by_datetime(time) *
+      total_appeal * luck * life_factor
+    )
     change_vitals(0, 0, 0, earnings)
     write_in_diary(
       'You panhandled for one hour.',
@@ -173,14 +179,9 @@ class Bum
     (1..1000).to_a.sample
   end
 
-  def traffic
-    time_table = {
-      0 => 0.4, 1 => 0.3, 2 => 0.2, 3 => 0.2, 4 => 0.2, 5 => 0.2,
-      6 => 0.4, 7 => 1.2, 8 => 1.2, 9 => 1.0, 10 => 1.0, 11 => 1.0,
-      12 => 1.2, 13 => 1.1, 14 => 1.0, 15 => 1.0, 16 => 1.0, 17 => 1.2,
-      18 => 1.2, 19 => 1.0, 20 => 0.85, 21 => 0.7, 22 => 0.6, 23 => 0.5
-    }
-    time_table[time.hour]
+  def ensure_location
+    self.location = Location.first unless self.location.present?
+    save!
   end
 
   def life_factor
