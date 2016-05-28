@@ -5,7 +5,7 @@ class BumViewModel < ApplicationViewModel
   end
 
   def date_time
-    model.time.strftime('%b %-d, %Y, %l %p')
+    model.time.strftime('%A %b %-d, %Y, %l %p')
   end
 
   def energy_fill

@@ -1,6 +1,8 @@
 namespace :seed do
   desc 'add items'
   task items: :environment do
+    Item.destroy_all
+
     Item.create!(
       name: 'Phillies hat',
       description: 'a Phillies hat',
@@ -23,6 +25,14 @@ namespace :seed do
       rummageable: true,
       rummage_chance: 30,
       appeal: 1,
+    )
+
+    Item.create!(
+      name: 'Wheelchair',
+      description: 'a rusty wheelchair',
+      rummageable: true,
+      rummage_chance: 666,
+      appeal: 10,
     )
   end
 end

@@ -16,4 +16,4 @@
       .action
         = form_tag controller: :bums, action: :consume, method: :post do
           = hidden_field_tag :grocery_id, grocery_vm.id
-          = submit_tag "#{grocery_vm.verb.titleize} #{grocery_vm.name} (#{number_to_currency(grocery_vm.dollars)})", disabled: grocery_vm.available?(@bum.time.hour)
+          = submit_tag "#{t(grocery_vm.verb + '.present').titleize} #{grocery_vm.name} (#{number_to_currency(grocery_vm.dollars)})", disabled: grocery_vm.available?(@bum.time.hour)

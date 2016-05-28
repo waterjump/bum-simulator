@@ -1,7 +1,7 @@
 namespace :seed do
   desc 'add food items'
   task groceries: :environment do
-    Grocery.delete_all
+    Grocery.destroy_all
 
     Grocery.create!(
       name: 'pretzel',
@@ -11,7 +11,7 @@ namespace :seed do
       life: 0,
       countable: true,
       food: true,
-      verb: 'ate'
+      verb: 'eat'
     )
 
     Grocery.create!(
@@ -22,7 +22,7 @@ namespace :seed do
       life: 200,
       countable: true,
       food: false,
-      verb: 'drank',
+      verb: 'drink',
       availability: {
         0 =>  true,
         1 => true,
@@ -48,6 +48,28 @@ namespace :seed do
         21 => true,
         22 => true,
         23 => true}
+    )
+
+    Grocery.create!(
+      name: 'Cheeseburger',
+      price: 150,
+      calories: 600,
+      energy: 0,
+      life: 0,
+      countable: true,
+      food: true,
+      verb: 'eat'
+    )
+
+    Grocery.create!(
+      name: 'Energy Drink',
+      price: 150,
+      calories: 100,
+      energy: 2,
+      life: 0,
+      countable: true,
+      food: false,
+      verb: 'drink'
     )
   end
 end

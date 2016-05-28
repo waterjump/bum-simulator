@@ -31,7 +31,7 @@ module BumSimulator
     config.generators do |g|
       g.orm :mongoid
     end
-    config.starting_date_time = DateTime.new(1983,4,3,8)
+    config.starting_date_time = DateTime.new(1983,4,4,8)
   end
 end
 

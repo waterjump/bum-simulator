@@ -20,4 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  eat:
+    present: 'eat'
+    past: 'ate'
+  drink:
+    present: 'drink'
+    past: 'drank'
