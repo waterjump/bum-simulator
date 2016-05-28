@@ -8,9 +8,11 @@ class BumsController < ApplicationController
 
   def show
     if current_user.present?
-      @bum = Bum.find_or_initialize(current_user.id)
+      bum = Bum.find_or_initialize(current_user.id)
+      @bum = BumViewModel.wrap(bum)
     elsif session[:bum_id].present?
-      @bum = Bum.find(session[:bum_id])
+      bum = Bum.find(session[:bum_id])
+      @bum = BumViewModel.wrap(bum)
     else
       redirect_to new_bum_path
     end
@@ -48,9 +50,11 @@ class BumsController < ApplicationController
 
   def bum_session
     if session[:bum_id].present?
-      @bum = Bum.find(session[:bum_id])
+      bum = Bum.find(session[:bum_id])
+      @bum = BumViewModel.wrap(bum)
     else
-      @bum = Bum.create!
+      bum = Bum.create!
+      @bum = BumViewModel.wrap(bum)
       session[:bum_id] = @bum.id
     end
   end

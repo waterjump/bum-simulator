@@ -20,8 +20,16 @@ line-height:150%;
 }
 
 .container {
-  width: 600px;
+  width: 800px;
   margin: 0 auto 0 auto;
+}
+
+.left-column, .right-column {
+  width: 49%;
+  margin: 0;
+  display: inline-block;
+  vertical-align: top;
+  height: 600px;
 }
 
 .stats {
@@ -57,7 +65,6 @@ line-height:150%;
   height: 10px;
   padding: 0;
   margin: 0;
-  display: inline-block;
 }
 
 .fill {

@@ -2,35 +2,30 @@
   %h2 You are dead.
   = link_to 'Play again', new_bum_path
 - else
-  .story
-    - @bum.diary.entries.last.line_items.each do |line|
-      .text= line.text
-      - if line.money != 0
-        .change= " #{line.money > 0 ? ' + ' : ' - '}You #{line.money > 0 ? 'made' : 'lost'} #{number_to_currency(line.money / 100.0)}."
-      - if line.appeal != 0
-        .change= " #{line.appeal > 0 ? ' + ' : ' - '}You #{line.appeal > 0 ? 'gained' : 'lost'} #{line.appeal} appeal."
+  .left-column
+    .stats
+      .stat
+        = "Energy: #{@bum.energy}/16"
+        .meter
+          .fill{ style: "width: #{@bum.energy_fill}px"}
+      .stat
+        = "Hunger: #{@bum.calories}/600"
+        .meter
+          .fill{ style: "width: #{@bum.hunger_fill}px"}
+      .stat
+        = "Life: #{@bum.life}/1000"
+        .meter
+          .fill{ style: "width: #{@bum.life_fill}px"}
+      .stat= "Money: #{number_to_currency(@bum.money / 100.0)}"
 
+    = render 'actions'
 
-  .stats
-    - symbol =
-    - if @bum.time.hour >= 6 && @bum.time.hour <= 19
-      - '☀'
-    - else
-      - '☽'
-
-    .stat= @bum.time.strftime('%b %-d, %Y, %l %p') + " #{symbol}"
-    .stat
-      = "Energy: #{@bum.energy}/16"
-      .meter
-        .fill{ style: "width: #{(@bum.energy / 16.0 ) * 250 }px"}
-    .stat
-      = "Hunger: #{@bum.calories}/600"
-      .meter
-        .fill{ style: "width: #{(@bum.calories / 600.0 ) * 250 }px"}
-    .stat
-      = "Life: #{@bum.life}/1000"
-      .meter
-        .fill{ style: "width: #{(@bum.life / 1000.0 ) * 250 }px"}
-    .stat= "Money: #{number_to_currency(@bum.money / 100.0)}"
-
-  = render 'actions'
+  .right-column
+    .stat= "#{@bum.date_time}" + " #{@bum.day_symbol}"
+    .story
+      - @bum.diary.entries.last.line_items.each do |line|
+        .text= line.text
+        - if line.money != 0
+          .change= " #{@bum.line_mark(line.money)}You #{line.money > 0 ? 'made' : 'lost'} #{number_to_currency(line.money / 100.0)}."
+        - if line.appeal != 0
+          .change= " #{@bum.line_mark(line.appeal)}You #{line.appeal > 0 ? 'gained' : 'lost'} #{line.appeal} appeal."
