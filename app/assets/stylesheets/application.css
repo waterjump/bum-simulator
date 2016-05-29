@@ -29,11 +29,18 @@ line-height:150%;
 }
 
 .left-column, .right-column {
-  width: 49%;
   margin: 0;
   display: inline-block;
   vertical-align: top;
   height: 600px;
+}
+
+.left-column {
+  width: 36%;
+}
+
+.right-column {
+  width: 60%;
 }
 
 .stats {
@@ -44,6 +51,7 @@ line-height:150%;
   font: 11px Arial;
   text-decoration: none;
   color: #333333;
+  background: #fff;
   padding: 2px 6px 2px 6px;
   border-top: 1px solid #CCCCCC;
   border-right: 1px solid #333333;

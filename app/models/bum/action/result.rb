@@ -71,8 +71,8 @@ class Bum
       end
 
       def life_full
-        return unless @bum.life > 1600
-        @life = 1600 - @bum.life
+        return unless @bum.life > 1000
+        @life = 1000 - @bum.life
       end
     end
   end

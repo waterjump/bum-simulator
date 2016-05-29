@@ -9,7 +9,7 @@
         .meter
           .fill{ style: "width: #{@bum.energy_fill}px"}
       .stat
-        = "Hunger: #{@bum.calories}/600"
+        = "Stomach: #{@bum.calories}/600"
         .meter
           .fill{ style: "width: #{@bum.hunger_fill}px"}
       .stat
@@ -26,6 +26,8 @@
       - @bum.diary.entries.last.line_items.each do |line|
         .text= line.text
         - if line.money != 0
-          .change= " #{@bum.line_mark(line.money)}You #{line.money > 0 ? 'made' : 'lost'} #{number_to_currency(line.money.abs / 100.0)}."
+          - verb = line.money > 0 ? 'made' : 'lost'
+          .change= " #{@bum.line_mark(line.money)}You #{verb} #{number_to_currency(line.money.abs / 100.0)}."
         - if line.appeal != 0
-          .change= " #{@bum.line_mark(line.appeal)}You #{line.appeal > 0 ? 'gained' : 'lost'} #{line.appeal} appeal."
+          - verb = line.appeal > 0 ? 'gained' : 'lost'
+          .change= " #{@bum.line_mark(line.appeal)}You #{verb} #{line.appeal} appeal."

@@ -24,4 +24,8 @@ class BumViewModel < ApplicationViewModel
     return ' + ' if metric > 0
     ' - '
   end
+
+  def item_names
+    model.items.map { |i| Item.find(i).name.titleize }
+  end
 end
