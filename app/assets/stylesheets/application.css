@@ -28,6 +28,10 @@ line-height:150%;
   margin: 0 auto 0 auto;
 }
 
+.groceries {
+  min-height: 100px;
+}
+
 .left-column, .right-column {
   margin: 0;
   display: inline-block;

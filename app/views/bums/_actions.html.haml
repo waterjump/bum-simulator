@@ -7,11 +7,14 @@
     = form_tag controller: :bums, action: :sleep do
       = submit_tag "Sleep for 1 hour", id: 'sleep-button', class: 'button'
       = range_field_tag :hours, 1, { required: true, in: 1..8, onChange: 'updateSleepValue(this.value)' }
-  - if @bum.present?
-    - Grocery.order_by(price: 'asc').each do |grocery|
-      - grocery_vm = GroceryViewModel.wrap(grocery)
-      - next unless grocery_vm.purchaseable?(@bum.money)
-      .action
-        = form_tag controller: :bums, action: :consume, method: :post do
-          = hidden_field_tag :grocery_id, grocery_vm.id
-          = submit_tag "#{t(grocery_vm.verb + '.present').titleize} #{grocery_vm.name.downcase} (#{number_to_currency(grocery_vm.dollars)})", disabled: grocery_vm.available?(@bum.time.hour), class: 'button'
+  \--------------------
+  %br
+  .groceries
+    - if @bum.present?
+      - Grocery.order_by(price: 'asc').each do |grocery|
+        - grocery_vm = GroceryViewModel.wrap(grocery)
+        - next unless grocery_vm.purchaseable?(@bum.money)
+        .action
+          = form_tag controller: :bums, action: :consume, method: :post do
+            = hidden_field_tag :grocery_id, grocery_vm.id
+            = submit_tag "#{t(grocery_vm.verb + '.present').titleize} #{grocery_vm.name.downcase} (#{number_to_currency(grocery_vm.dollars)})", disabled: grocery_vm.available?(@bum.time.hour), class: 'button'
