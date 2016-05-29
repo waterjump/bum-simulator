@@ -26,15 +26,7 @@ class Bum
     def pass_one_hour(cal = 100, sleeping = false)
       @result.update(time: 1.hour)
       @result.update(energy: -1) unless sleeping
-      sleep_stomach(cal, sleeping)
-    end
-
-    def sleep_stomach(cal, sleeping)
-      cal_start = @bum.calories
       @result.update(calories: (cal * -1))
-      if sleeping && @bum.calories <= 0 && cal_start > 400
-        @result.update(calories: 10)
-      end
     end
 
     def write_in_diary(text = '', metrics = {})

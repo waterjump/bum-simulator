@@ -1,6 +1,7 @@
 class Bum
   class Action
     class Result
+      attr_reader :calories
       def initialize(bum, metrics = {})
         @bum = bum
         @energy = metrics[:energy] || 0
@@ -71,7 +72,7 @@ class Bum
       end
 
       def life_full
-        return unless @bum.life > 1000
+        return unless @bum.life + @life > 1000
         @life = 1000 - @bum.life
       end
     end
