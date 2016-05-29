@@ -20,6 +20,6 @@ class Occurrence
   end
 
   def valid?(time)
-    available_date >= time
+    available_date <= time
   end
 end

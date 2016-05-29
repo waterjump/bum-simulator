@@ -52,7 +52,7 @@ namespace :seed do
 
     Grocery.create!(
       name: 'Cheeseburger',
-      price: 150,
+      price: 200,
       calories: 600,
       energy: 0,
       life: 0,

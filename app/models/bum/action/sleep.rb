@@ -17,7 +17,7 @@ class Sleep < Bum::Action
     )
     cal_start = @bum.calories
     @hours.times { pass_one_hour(100, true) }
-    if (@bum.calories + @result.calories) <= 0 && cal_start > 400
+    if (@bum.calories + @result.calories) <= 0 && cal_start >= 400
       offset = cal_start - 10
       offset = (@result.calories + offset).abs
       @result.update(calories: offset)
