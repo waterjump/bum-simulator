@@ -9,5 +9,11 @@ class Bum
     def current_entry(time)
       entries.where(time: time).first || entries.build(time: time)
     end
+
+    def todays_entries(time)
+      entries.select do |entry|
+        entry.time.to_date == time.to_date
+      end
+    end
   end
 end

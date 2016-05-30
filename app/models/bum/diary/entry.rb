@@ -26,6 +26,12 @@ class Bum
         )
         save!
       end
+
+      def ate_soup?
+        line_items.each.inject(false) do |memo, li|
+          memo || li.text.include?('soup')
+        end
+      end
     end
   end
 end

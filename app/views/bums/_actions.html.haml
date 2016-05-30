@@ -13,8 +13,8 @@
     - if @bum.present?
       - Grocery.order_by(price: 'asc').each do |grocery|
         - grocery_vm = GroceryViewModel.wrap(grocery)
-        - next unless grocery_vm.purchaseable?(@bum.money)
+        - next unless grocery_vm.purchaseable?(@bum.money) && grocery_vm.available?(@bum)
         .action
           = form_tag controller: :bums, action: :consume, method: :post do
             = hidden_field_tag :grocery_id, grocery_vm.id
-            = submit_tag "#{t(grocery_vm.verb + '.present').titleize} #{grocery_vm.name.downcase} (#{number_to_currency(grocery_vm.dollars)})", disabled: grocery_vm.available?(@bum.time.hour), class: 'button'
+            = submit_tag "#{grocery_vm.button_text} (#{number_to_currency(grocery_vm.dollars)})", class: 'button'

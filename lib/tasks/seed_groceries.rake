@@ -51,7 +51,7 @@ namespace :seed do
     )
 
     Grocery.create!(
-      name: 'Cheeseburger',
+      name: 'cheeseburger',
       price: 200,
       calories: 600,
       energy: 0,
@@ -62,7 +62,7 @@ namespace :seed do
     )
 
     Grocery.create!(
-      name: 'Energy Drink',
+      name: 'energy drink',
       price: 150,
       calories: 100,
       energy: 2,
@@ -70,6 +70,45 @@ namespace :seed do
       countable: true,
       food: false,
       verb: 'drink'
+    )
+
+    Grocery.create!(
+      name: 'soup',
+      price: 0,
+      calories: 800,
+      life: 100,
+      time_spent: 1,
+      countable: false,
+      food: true,
+      verb: 'eat',
+      availability: {
+        0 =>  false,
+        1 => false,
+        2 => false,
+        3 => false,
+        4 => false,
+        5 => false,
+        6 => false,
+        7 => false,
+        8 => false,
+        9 => false,
+        10 => true,
+        11 => true,
+        12 => true,
+        13 => true,
+        14 => true,
+        15 => true,
+        16 => true,
+        17 => true,
+        18 => true,
+        19 => true,
+        20 => false,
+        21 => false,
+        22 => false,
+        23 => false
+      },
+      available_days: [:sunday],
+      special_action: 'Go to the soup kitchen'
     )
   end
 end

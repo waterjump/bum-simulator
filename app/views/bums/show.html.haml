@@ -19,13 +19,14 @@
       .stat= "Money: #{number_to_currency(@bum.money / 100.0)}"
 
     = render 'actions'
-    \--------------------
-    .inventory
-      .h3
-        Inventory
-        .ul
-        - @bum.item_names.each do |item|
-          .li= item
+    - if @bum.item_names.present?
+      \--------------------
+      .inventory
+        .h3
+          Inventory:
+          .ul
+          - @bum.item_names.each do |item|
+            .li= item
 
   .right-column
     .stat= "#{@bum.date_time}" + " #{@bum.day_symbol}"

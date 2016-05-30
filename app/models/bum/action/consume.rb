@@ -20,6 +20,7 @@ class Consume < Bum::Action
       life: @grocery.life,
       energy: @grocery.energy
     )
+    @grocery.time_spent.times { pass_one_hour(0) } if @grocery.time_spent > 0
     @result.apply
   end
 

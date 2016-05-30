@@ -36,4 +36,17 @@ class Bum
   def life_factor
     life >= 300 ? 1 : 0.5
   end
+
+  def ate_soup_today?
+    return false unless todays_entries.present?
+    todays_entries.inject(false) do |memo, entry|
+      memo || entry.ate_soup?
+    end
+  end
+
+  private
+
+  def todays_entries
+    diary.todays_entries(time)
+  end
 end
