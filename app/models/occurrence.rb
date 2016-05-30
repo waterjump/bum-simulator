@@ -14,12 +14,14 @@ class Occurrence
   field :panhandle, type: Boolean, default: true
   field :rummage, type: Boolean, default: true
   field :sleep, type: Boolean, default: true
+  field :good, type: Boolean, default: false
+  field :bad, type: Boolean, default: false
 
   def occur?(time)
-    valid?(time) && (1..1000).to_a.sample % chance == 0
+    available?(time) && (1..1000).to_a.sample % chance == 0
   end
 
-  def valid?(time)
+  def available?(time)
     available_date <= time
   end
 end

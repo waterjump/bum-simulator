@@ -17,12 +17,15 @@ class Bum
 
       def add_line_item(text, metrics = {})
         line_items.build(
-          text: text,
-          energy: (metrics[:energy] || 0),
+          text:     text,
+          energy:   (metrics[:energy] || 0),
           calories: (metrics[:calories] || 0),
-          life: (metrics[:life] || 0),
-          money: (metrics[:money] || 0),
-          appeal: (metrics[:appeal] || 0)
+          life:     (metrics[:life] || 0),
+          money:    (metrics[:money] || 0),
+          appeal:   (metrics[:appeal] || 0),
+          good:     (metrics[:good] || false),
+          bad:      (metrics[:bad] || false),
+          special:  special?(metrics)
         )
         save!
       end
@@ -31,6 +34,13 @@ class Bum
         line_items.each.inject(false) do |memo, li|
           memo || li.text.include?('soup')
         end
+      end
+
+      private
+
+      def special?(metrics)
+        return false unless metrics[:chance].present?
+        metrics[:chance] >= 10
       end
     end
   end

@@ -17,7 +17,10 @@ class Bum
         calories: occ.calories,
         energy: occ.energy,
         life: occ.life,
-        money: occ.money
+        money: occ.money,
+        chance: occ.chance,
+        good: occ.good,
+        bad: occ.bad
       }
       write_in_diary(occ.description, occ_hash)
       @result.update(occ_hash)

@@ -32,7 +32,9 @@ class Sleep < Bum::Action
     @result.update(total_robbed: amount * -1)
     write_in_diary(
       'You got robbed while asleep!  Fuck!',
-      money: amount
+      money: amount,
+      chance: 14,
+      bad: true
     )
   end
 end

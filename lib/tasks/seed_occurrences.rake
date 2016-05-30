@@ -10,7 +10,8 @@ namespace :seed do
       chance: 24,
       rummage: false,
       sleep: false,
-      panhandle: true
+      panhandle: true,
+      good: true
     )
 
     Occurrence.create!(
@@ -20,7 +21,8 @@ namespace :seed do
       chance: 3,
       rummage: true,
       sleep: false,
-      panhandle: false
+      panhandle: false,
+      good: true
     )
 
     Occurrence.create!(
@@ -30,7 +32,8 @@ namespace :seed do
       rummage: false,
       sleep: false,
       panhandle: true,
-      money: 200
+      money: 200,
+      good: true
     )
 
     Occurrence.create!(

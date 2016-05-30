@@ -64,11 +64,29 @@ line-height:150%;
   border-radius: 4px;
 }
 
-.story {
+.normal {
   min-height: 60px;
   padding: 30px;
   border-radius: 10px;
   border: 1px solid black;
+}
+
+.special-good, .special-bad {
+    padding: 30px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.special-good {
+    background-color: #A9FFA3;
+    color: darkgreen;
+}
+
+.special-bad {
+    background-color: #FFA3A3;
+    color: maroon;
 }
 
 .stat {
