@@ -1,5 +1,4 @@
 class BumsController < ApplicationController
-
   before_filter :bum_session, except: [:new, :show, :create]
 
   def new
@@ -8,11 +7,9 @@ class BumsController < ApplicationController
 
   def show
     if current_user.present?
-      bum = Bum.find_or_initialize(current_user.id)
-      @bum = BumViewModel.wrap(bum)
+      @bum = BumViewModel.wrap(Bum.find_or_initialize(current_user.id))
     elsif session[:bum_id].present?
-      bum = Bum.find(session[:bum_id])
-      @bum = BumViewModel.wrap(bum)
+      @bum = BumViewModel.wrap(Bum.find(session[:bum_id]))
     else
       redirect_to new_bum_path
     end

@@ -9,10 +9,10 @@ class Location
   validates :name, uniqueness: true
 
   def traffic_by_datetime(date_time)
-    hour = date_time.hour.to_s
-    return traffic['friday'][hour] if date_time.friday?
-    return traffic['saturday'][hour] if date_time.saturday?
-    return traffic['sunday'][hour] if date_time.sunday?
-    traffic['weekday'][hour]
+    day_of_week = traffic.fetch(
+      date_time.strftime('%A').downcase,
+      traffic['weekday']
+    )
+    day_of_week[date_time.hour.to_s]
   end
 end

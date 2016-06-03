@@ -9,15 +9,15 @@ class BumViewModel < ApplicationViewModel
   end
 
   def energy_fill
-    (model.energy / 16.0 ) * 250
+    (model.energy / 16.0) * 250
   end
 
   def hunger_fill
-    (model.calories / 600.0 ) * 250
+    (model.calories / 600.0) * 250
   end
 
   def life_fill
-    (model.life / 1000.0 ) * 250
+    (model.life / 1000.0) * 250
   end
 
   def line_mark(metric)

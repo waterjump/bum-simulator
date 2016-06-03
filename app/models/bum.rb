@@ -22,10 +22,10 @@ class Bum
 
   def self.find_or_initialize(user_id)
     where(user_id: user_id).first ||
-    create!(
-      user_id: user_id.presence,
-      diary: Bum::Diary.create!
-    )
+      create!(
+        user_id: user_id.presence,
+        diary: Bum::Diary.create!
+      )
   end
 
   def life_factor
