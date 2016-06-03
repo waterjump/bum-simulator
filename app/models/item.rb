@@ -9,6 +9,8 @@ class Item
   field :rummage_chance, type: Integer, default: 1
   field :price, type: Integer, default: 0
   field :appeal, type: Integer, default: 0
+  field :purchaseable, type: Boolean, default: false
 
   scope :rummageable, -> { where(rummageable: true) }
+  scope :purchaseable, -> { where(purchaseable: true) }
 end

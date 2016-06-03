@@ -53,12 +53,13 @@
             - if line.appeal != 0
               - verb = line.appeal > 0 ? 'gained' : 'lost'
               .change= " #{@bum.line_mark(line.appeal)}You #{verb} #{line.appeal} appeal."
-      .normal
-        - entry.line_items.normal.each do |line|
-          .text= line.text
-          - if line.money != 0
-            - verb = line.money > 0 ? 'made' : 'lost'
-            .change= " #{@bum.line_mark(line.money)}You #{verb} #{number_to_currency(line.money.abs / 100.0)}."
-          - if line.appeal != 0
-            - verb = line.appeal > 0 ? 'gained' : 'lost'
-            .change= " #{@bum.line_mark(line.appeal)}You #{verb} #{line.appeal} appeal."
+      - if entry.line_items.normal.any?
+        .normal
+          - entry.line_items.normal.each do |line|
+            .text= line.text
+            - if line.money != 0
+              - verb = line.money > 0 ? 'made' : 'lost'
+              .change= " #{@bum.line_mark(line.money)}You #{verb} #{number_to_currency(line.money.abs / 100.0)}."
+            - if line.appeal != 0
+              - verb = line.appeal > 0 ? 'gained' : 'lost'
+              .change= " #{@bum.line_mark(line.appeal)}You #{verb} #{line.appeal} appeal."

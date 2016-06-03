@@ -23,6 +23,7 @@ class Sleep < Bum::Action
   private
 
   def robbed_in_sleep
+    return unless @bum.can_be_robbed?
     amount = (@bum.money * 0.4 * luck * -1).to_i
     @result.update(money: amount)
     @result.update(total_robbed: amount * -1)

@@ -37,4 +37,8 @@ class BumViewModel < ApplicationViewModel
       end
     appeal + item_appeal
   end
+
+  def can_be_robbed?
+    !model.items.include?('lockbox')
+  end
 end

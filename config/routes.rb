@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post 'sleep' => 'bums#sleep', as: :sleep
   post 'consume' => 'bums#consume', as: :consume
   get 'rummage' => 'bums#rummage', as: :rummage
+  post 'purchase' => 'bums#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   resources :bums, except: [:index]

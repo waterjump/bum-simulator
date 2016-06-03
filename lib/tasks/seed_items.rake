@@ -34,5 +34,14 @@ namespace :seed do
       rummage_chance: 666,
       appeal: 10,
     )
+
+    Item.create!(
+      id: 'lockbox',
+      name: 'Lockbox',
+      description: 'a metal lockbox to keep from getting robbed while asleep.',
+      purchaseable: true,
+      appeal: 0,
+      price: 2000
+    )
   end
 end

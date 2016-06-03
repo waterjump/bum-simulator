@@ -11,10 +11,15 @@
   %br
   .groceries
     - if @bum.present?
-      - Grocery.order_by(price: 'asc').each do |grocery|
-        - grocery_vm = GroceryViewModel.wrap(grocery)
-        - next unless grocery_vm.purchaseable?(@bum.money) && grocery_vm.available?(@bum)
+      - @groceries.each do |grocery|
+        - next unless grocery.purchaseable?(@bum.money) && grocery.available?(@bum)
         .action
           = form_tag controller: :bums, action: :consume, method: :post do
-            = hidden_field_tag :grocery_id, grocery_vm.id
-            = submit_tag "#{grocery_vm.button_text} (#{number_to_currency(grocery_vm.dollars)})", class: 'button'
+            = hidden_field_tag :grocery_id, grocery.id
+            = submit_tag "#{grocery.button_text} (#{number_to_currency(grocery.dollars)})", class: 'button'
+      - @items.each do |item|
+        - next unless item.affordable?(@bum.money) && !@bum.items.include?(item.id)
+        .action
+          = form_tag controller: :bums, action: :purchase, method: :post do
+            = hidden_field_tag :item_id, item.id
+            = submit_tag "#{item.button_text} (#{number_to_currency(item.dollars)})", class: 'button'
