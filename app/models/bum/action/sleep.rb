@@ -9,25 +9,21 @@ class Sleep < Bum::Action
     before = @bum.energy
     @result.update(energy: @hours * 2)
     after = @bum.energy
-    robbed_in_sleep
-    s = @hours > 1 ? 's' : ''
+    calculate_occurrences(@action_name)
     write_in_diary(
-      "You slept for #{@hours} hour#{s}.",
+      "You slept for #{@hours} hour#{@hours > 1 ? 's' : ''}.",
       energy: (after - before)
     )
-    cal_start = @bum.calories
+    initial_calories = @bum.calories
     @hours.times { pass_one_hour(100, true) }
-    if (@bum.calories + @result.calories) <= 0 && cal_start >= 400
-      offset = cal_start - 10
-      offset = (@result.calories + offset).abs
-      @result.update(calories: offset)
-    end
+    fast(initial_calories)
     @result.apply
   end
 
+  private
+
   def robbed_in_sleep
-    return unless rand1000 % 14 == 0
-    amount = @bum.money * 0.4 * luck * -1
+    amount = (@bum.money * 0.4 * luck * -1).to_i
     @result.update(money: amount)
     @result.update(total_robbed: amount * -1)
     write_in_diary(
@@ -36,5 +32,13 @@ class Sleep < Bum::Action
       chance: 14,
       bad: true
     )
+  end
+
+  def fast(initial_calories)
+    return unless initial_calories >= 400 &&
+                  (@bum.calories + @result.calories) <= 0
+    offset = initial_calories - 10
+    offset = (@result.calories + offset).abs
+    @result.update(calories: offset)
   end
 end

@@ -22,6 +22,7 @@ class Bum
         good: occ.good,
         bad: occ.bad
       }
+      send(occ.custom_method) if occ.custom_method.present?
       write_in_diary(occ.description, occ_hash)
       @result.update(occ_hash)
     end

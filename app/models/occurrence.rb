@@ -11,11 +11,12 @@ class Occurrence
   field :life, type: Integer, default: 0
   field :money, type: Integer, default: 0
   field :one_off, type: Boolean, default: false
-  field :panhandle, type: Boolean, default: true
-  field :rummage, type: Boolean, default: true
-  field :sleep, type: Boolean, default: true
+  field :panhandle, type: Boolean, default: false
+  field :rummage, type: Boolean, default: false
+  field :sleep, type: Boolean, default: false
   field :good, type: Boolean, default: false
   field :bad, type: Boolean, default: false
+  field :custom_method, type: Symbol
 
   def occur?(time)
     available?(time) && (1..1000).to_a.sample % chance == 0
