@@ -4,41 +4,58 @@ class Bum
       attr_reader :calories
       def initialize(bum, metrics = {})
         @bum = bum
-        @energy = metrics[:energy] || 0
-        @calories = metrics[:calories] || 0
-        @life = metrics[:life] || 0
-        @money = metrics[:money] || 0
-        @appeal = metrics[:appeal] || 0
-        @time = metrics[:time] || 0.hours
-        @items = metrics[:items] || []
-        @total_robbed = metrics[:total_robbed] || 0
+        @energy = metrics.fetch(:energy, 0)
+        @calories = metrics.fetch(:calories, 0)
+        @life = metrics.fetch(:life, 0)
+        @money = metrics.fetch(:money, 0)
+        @appeal = metrics.fetch(:appeal, 0)
+        @time = metrics.fetch(:time, 0.hours)
+        @items = metrics.fetch(:items, [])
       end
 
       def update(metrics = {})
-        @energy += metrics[:energy] || 0
-        @calories += metrics[:calories] || 0
-        @life += metrics[:life] || 0
-        @money += metrics[:money] || 0
-        @appeal += metrics[:appeal] || 0
-        @time += metrics[:time] || 0.hours
+        metrics.slice(*valid_keys).each do |field, value|
+          instance_variable_set(
+            "@#{field}",
+            instance_variable_get("@#{field}".to_sym) + value
+          )
+        end
         @items << metrics[:items] if metrics[:items].present?
-        @total_robbed += metrics[:total_robbed] || 0
       end
 
       def apply
         regulate_vitals
-        @bum.inc(energy: @energy) if @energy != 0
-        @bum.inc(calories: @calories) if @calories != 0
-        @bum.inc(life: @life) if @life != 0
-        @bum.inc(money: @money) if @money != 0
-        @bum.inc(appeal: @appeal) if @appeal != 0
-        @bum.inc(total_robbed: @total_robbed) if @total_robbed != 0
+        increment(
+          energy:     @energy,
+          calories:   @calories,
+          life:       @life,
+          money:      @money,
+          appeal:     @appeal
+        )
         @bum.items += (@items - @bum.items)
-        @bum.update_attribute(:time, @bum.time + @time) if @time != 0.hours
+        @bum.update_attribute(:time, @bum.time + @time) if @time > 0.hours
         @bum.save!
       end
 
       private
+
+      def valid_keys
+        [
+          :energy,
+          :calories,
+          :life,
+          :money,
+          :appeal,
+          :time
+        ]
+      end
+
+      def increment(hash)
+        hash.each do |field, value|
+          next if value == 0
+          @bum.inc(field => value)
+        end
+      end
 
       def regulate_vitals
         out_of_energy
