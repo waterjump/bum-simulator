@@ -17,7 +17,7 @@ class Panhandle < Bum::Action
     earnings = (
       location.business * location.traffic_by_datetime(@bum.time) *
       @bum.total_appeal * luck * @bum.life_factor
-    )
+    ).to_i
     @result.update(money: earnings) if earnings > 0
     write_in_diary(
       'You panhandled for one hour.', money: earnings
