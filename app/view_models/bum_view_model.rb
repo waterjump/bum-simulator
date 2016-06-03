@@ -28,4 +28,13 @@ class BumViewModel < ApplicationViewModel
   def item_names
     model.items.map { |i| Item.find(i).name.titleize }
   end
+
+  def total_appeal
+    item_appeal =
+      model.items.inject(0) do |memo, item_id|
+        item = Item.find(item_id)
+        memo + item.appeal
+      end
+    appeal + item_appeal
+  end
 end

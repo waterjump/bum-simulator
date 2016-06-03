@@ -19,7 +19,7 @@ class BumsController < ApplicationController
   end
 
   def create
-    @bum = Bum.create!
+    @bum = BumViewModel.wrap(Bum.create!)
     session[:bum_id] = @bum.id
     redirect_to bum_path
   end
@@ -50,11 +50,9 @@ class BumsController < ApplicationController
 
   def bum_session
     if session[:bum_id].present?
-      bum = Bum.find(session[:bum_id])
-      @bum = BumViewModel.wrap(bum)
+      @bum = BumViewModel.wrap(Bum.find(session[:bum_id]))
     else
-      bum = Bum.create!
-      @bum = BumViewModel.wrap(bum)
+      @bum = BumViewModel.wrap(Bum.create!)
       session[:bum_id] = @bum.id
     end
   end
