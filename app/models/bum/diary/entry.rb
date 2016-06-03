@@ -25,7 +25,7 @@ class Bum
           appeal:   metrics.fetch(:appeal, 0),
           good:     metrics.fetch(:good, false),
           bad:      metrics.fetch(:bad, false),
-          special:  metrics.fetch(:chance, 1) >= 10
+          special:  metrics.fetch(:special, false)
         )
         save!
       end

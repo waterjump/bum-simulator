@@ -38,7 +38,7 @@ class Rummage < Bum::Action
     write_in_diary(
       "You found #{item_description}",
       appeal: item.appeal,
-      chance: item.rummage_chance,
+      special: true,
       good: true
     )
   end

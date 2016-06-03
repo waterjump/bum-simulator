@@ -16,7 +16,9 @@ class Occurrence
   field :sleep, type: Boolean, default: false
   field :good, type: Boolean, default: false
   field :bad, type: Boolean, default: false
-  field :custom_method, type: Symbol
+  field :callback_method, type: Symbol
+  field :prerequisite, type: String
+  field :special, type: Boolean, default: false
 
   def occur?(time)
     available?(time) && (1..1000).to_a.sample % chance == 0

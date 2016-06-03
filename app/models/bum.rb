@@ -15,6 +15,7 @@ class Bum
   field :total_panhandled, type: Integer, default: 0
   field :total_robbed, type: Integer, default: 0
   field :items, type: Array, default: []
+  field :occurrences, type: Array, default: []
   embeds_one :diary,
              class_name: 'Bum::Diary',
              cascade_callbacks: true

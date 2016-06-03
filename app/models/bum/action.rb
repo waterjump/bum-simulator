@@ -7,7 +7,10 @@ class Bum
 
     def calculate_occurrences(action)
       Occurrence.each do |occ|
-        next unless occ.occur?(@bum.time) && occ.send(action)
+        next unless occ.occur?(@bum.time) &&
+          occ.send(action) &&
+          !seen_one_off?(occ) &&
+          prerequisite_present?(occ)
         apply_occurrence(occ)
       end
     end
@@ -18,12 +21,13 @@ class Bum
         energy: occ.energy,
         life: occ.life,
         money: occ.money,
-        chance: occ.chance,
+        special: occ.special,
         good: occ.good,
         bad: occ.bad
       }
-      send(occ.custom_method) if occ.custom_method.present?
-      write_in_diary(occ.description, occ_hash)
+      occ_hash.merge!(occurrences: occ.name) if occ.one_off?
+      send(occ.callback_method) if occ.callback_method.present?
+      write_in_diary(occ.description, occ_hash) if occ.callback_method.nil?
       @result.update(occ_hash)
     end
 
@@ -48,6 +52,17 @@ class Bum
 
     def rand1000
       (1..1000).to_a.sample
+    end
+
+    private
+
+    def seen_one_off?(occ)
+      occ.one_off? && @bum.occurrences.include?(occ.name)
+    end
+
+    def prerequisite_present?(occ)
+      return true unless occ.prerequisite.present?
+      @bum.occurrences.include?(occ.prerequisite)
     end
   end
 end

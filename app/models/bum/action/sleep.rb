@@ -30,7 +30,7 @@ class Sleep < Bum::Action
     write_in_diary(
       'You got robbed while asleep!  Fuck!',
       money: amount,
-      chance: 14,
+      special: true,
       bad: true
     )
   end

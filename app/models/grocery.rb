@@ -2,10 +2,10 @@ class Grocery
   include Mongoid::Document
   include Mongoid::Timestamps
   field :name, type: String
-  field :price, type: Integer
-  field :calories, type: Integer
-  field :energy, type: Integer
-  field :life, type: Integer
+  field :price, type: Integer, default: 0
+  field :calories, type: Integer, default: 0
+  field :energy, type: Integer, default: 0
+  field :life, type: Integer, default: 0
   field :countable, type: Boolean, default: true
   field :food, type: Boolean, default: true
   field :verb, type: String

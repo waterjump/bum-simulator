@@ -24,11 +24,11 @@ namespace :seed do
     Occurrence.create!(
       name: 'Frat kick',
       description: 'Some frat boy douche bag just randomly ran up and kicked you.',
-      calories: 0,
       chance: 50,
       panhandle: true,
       bad: true,
-      life: -100
+      life: -100,
+      special: true
     )
 
     Occurrence.create!(
@@ -37,14 +37,18 @@ namespace :seed do
       chance: 69,
       panhandle: true,
       money: 200,
-      good: true
+      good: true,
+      special: true
     )
 
     Occurrence.create!(
       name: 'Bible person',
-      description: 'Some relogious person approached you and was saying some crap about the Bible and Jesus and stuff.  It was of no apparent help.',
+      description: 'Some religious person approached you and was saying some crap about the Bible and Jesus and stuff.  It was of no apparent help.',
       chance: 50,
-      panhandle: true
+      panhandle: true,
+      one_off: true,
+      special: true,
+      bad: true
     )
 
     Occurrence.create!(
@@ -52,7 +56,48 @@ namespace :seed do
       description: 'You got robbed while asleep!  Fuck!',
       chance: 14,
       sleep: true,
-      custom_method: :robbed_in_sleep
+      callback_method: :robbed_in_sleep,
+      bad: true,
+      special: true
+    )
+
+    Occurrence.create!(
+      name: 'Pissed yourself',
+      description: 'You pissed yourself.',
+      chance: 100,
+      panhandle: true,
+      bad: true,
+      special: true
+    )
+
+    Occurrence.create!(
+      name: 'Entrails Sign',
+      description:
+        'You looked up and saw a giant billboard that reads'\
+        ' "Homeless Entrails Bought and Sold for Cheap!"'\
+        '  Fear filled your heart.  My god, how things have'\
+        ' changed on the outside.',
+      chance: 45,
+      one_off: true,
+      panhandle: true,
+      rummage: true,
+      bad: true,
+      special: true
+    )
+
+    Occurrence.create!(
+      name: 'Home Essentials Sign',
+      description:
+        'You peered back up at the same billboard to see it reads'\
+        ' "Home Essentials Bought and Sold for Cheap!"'\
+        '  What a relief.  You also pissed yourself.',
+      chance: 2,
+      one_off: true,
+      panhandle: true,
+      rummage: true,
+      good: true,
+      prerequisite: 'Entrails Sign',
+      special: true
     )
   end
 end

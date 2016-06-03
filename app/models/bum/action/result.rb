@@ -11,6 +11,7 @@ class Bum
         @appeal = metrics.fetch(:appeal, 0)
         @time = metrics.fetch(:time, 0.hours)
         @items = metrics.fetch(:items, [])
+        @occurrences = metrics.fetch(:occurrences, [])
       end
 
       def update(metrics = {})
@@ -21,6 +22,7 @@ class Bum
           )
         end
         @items << metrics[:items] if metrics[:items].present?
+        @occurrences << metrics[:occurrences] if metrics[:occurrences].present?
       end
 
       def apply
@@ -33,6 +35,7 @@ class Bum
           appeal:     @appeal
         )
         @bum.items += (@items - @bum.items)
+        @bum.occurrences += @occurrences
         @bum.update_attribute(:time, @bum.time + @time) if @time > 0.hours
         @bum.save!
       end
