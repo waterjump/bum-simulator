@@ -21,16 +21,11 @@ class Bum
   belongs_to :location, class_name: 'Location'
 
   def self.find_or_initialize(user_id)
-    where(user_id: user_id).first || create!(diary: Bum::Diary.create!)
-  end
-
-  def total_appeal
-    item_appeal =
-      items.inject(0) do |memo, item_id|
-        item = Item.find(item_id)
-        memo + item.appeal
-      end
-    appeal + item_appeal
+    where(user_id: user_id).first ||
+    create!(
+      user_id: user_id.presence,
+      diary: Bum::Diary.create!
+    )
   end
 
   def life_factor
