@@ -8,7 +8,7 @@ namespace :seed do
       description: 'a Phillies hat',
       rummageable: true,
       rummage_chance: 15,
-      appeal: 2,
+      appeal: 2
     )
 
     Item.create!(
@@ -16,7 +16,7 @@ namespace :seed do
       description: 'a cardboard sign that has "Homless and hungrie - Dog Bless U" scrawled on it.',
       rummageable: true,
       rummage_chance: 2,
-      appeal: 1,
+      appeal: 1
     )
 
     Item.create!(
@@ -24,7 +24,7 @@ namespace :seed do
       description: 'a book called "Schizophrenia and You: A Beginner\'s Guide to Controlling your Paranoid Ramblings"',
       rummageable: true,
       rummage_chance: 30,
-      appeal: 1,
+      appeal: 1
     )
 
     Item.create!(
@@ -32,7 +32,7 @@ namespace :seed do
       description: 'a rusty wheelchair',
       rummageable: true,
       rummage_chance: 666,
-      appeal: 10,
+      appeal: 10
     )
 
     Item.create!(
