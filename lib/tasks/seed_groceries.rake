@@ -24,7 +24,7 @@ namespace :seed do
       food: false,
       verb: 'drink',
       availability: {
-        0 =>  true,
+        0 => true,
         1 => true,
         2 => false,
         3 => false,
@@ -47,7 +47,8 @@ namespace :seed do
         20 => true,
         21 => true,
         22 => true,
-        23 => true}
+        23 => true
+      }
     )
 
     Grocery.create!(

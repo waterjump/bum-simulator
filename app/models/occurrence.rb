@@ -20,8 +20,12 @@ class Occurrence
   field :prerequisite, type: String
   field :special, type: Boolean, default: false
 
-  def occur?(time)
-    available?(time) && (1..1000).to_a.sample % chance == 0
+  def occur?(time, force_name = nil)
+    available?(time) &&
+      (
+        (1..1000).to_a.sample % chance == 0 ||
+        force_name == name
+      )
   end
 
   def available?(time)

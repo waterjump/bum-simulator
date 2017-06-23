@@ -13,7 +13,6 @@ class ApplicationViewModel
     @options = options.with_indifferent_access
   end
 
-
   def method_missing(method, *args, &block)
     if model && model.respond_to?(method)
       # Define a method so the next call is faster

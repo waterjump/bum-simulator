@@ -15,8 +15,11 @@ class Panhandle < Bum::Action
 
   def calculate_earnings
     earnings = (
-      location.business * location.traffic_by_datetime(@bum.time) *
-      @bum.total_appeal * luck * @bum.life_factor
+      location.business *
+      location.traffic_by_datetime(@bum.time) *
+      @bum.total_appeal *
+      luck *
+      @bum.life_factor
     ).to_i
     @result.update(money: earnings) if earnings > 0
     write_in_diary(

@@ -1,16 +1,16 @@
 class Bum
   class Action
-    def initialize(bum, _options = {})
+    def initialize(bum, _options = {}, *args)
       @bum = bum
       @result = Bum::Action::Result.new(bum)
     end
 
-    def calculate_occurrences(action)
+    def calculate_occurrences(action, force_name = nil)
       Occurrence.each do |occ|
-        next unless occ.occur?(@bum.time) &&
-          occ.send(action) &&
-          !seen_one_off?(occ) &&
-          prerequisite_present?(occ)
+        next unless occ.occur?(@bum.time, force_name) &&
+                    occ.send(action) &&
+                    !seen_one_off?(occ) &&
+                    prerequisite_present?(occ)
         apply_occurrence(occ)
       end
     end
@@ -25,7 +25,7 @@ class Bum
         good: occ.good,
         bad: occ.bad
       }
-      occ_hash.merge!(occurrences: occ.name) if occ.one_off?
+      occ_hash[:occurrences] = occ.name if occ.one_off?
       send(occ.callback_method) if occ.callback_method.present?
       write_in_diary(occ.description, occ_hash) if occ.callback_method.nil?
       @result.update(occ_hash)
