@@ -5,9 +5,11 @@ class Bum
       @result = Bum::Action::Result.new(bum)
     end
 
-    def calculate_occurrences(action, force_name = nil)
+    def calculate_occurrences(action)
       Occurrence.each do |occ|
-        next unless occ.occur?(@bum.time, force_name) &&
+        next if occ.suppress?
+        next unless occ.force? ||
+                    occ.occur?(@bum.time) &&
                     occ.send(action) &&
                     !seen_one_off?(occ) &&
                     prerequisite_present?(occ)

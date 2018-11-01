@@ -40,6 +40,10 @@ class Bum
     end
   end
 
+  def can_be_robbed?
+    !items.include?('lockbox')
+  end
+
   private
 
   def todays_entries

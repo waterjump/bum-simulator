@@ -1,18 +1,17 @@
 class Bum
   class Action
     class Sleep < Bum::Action
-      def initialize(bum, options = {}, force = nil)
+      def initialize(bum, options = {})
         super
         @action_name = :sleep
         @hours = options[:hours]
-        @force = force
       end
 
       def perform
         before = @bum.energy
         @result.update(energy: @hours * 2)
         after = @bum.energy
-        calculate_occurrences(@action_name, @force)
+        calculate_occurrences(@action_name)
         write_in_diary(
           "You slept for #{@hours} hour#{@hours > 1 ? 's' : ''}.",
           energy: (after - before)
@@ -31,7 +30,7 @@ class Bum
         @result.update(money: amount)
         @result.update(total_robbed: amount * -1)
         write_in_diary(
-          'You got robbed while asleep!  Fuck!',
+          'You got robbed while asleep!  Welp.',
           money: amount,
           special: true,
           bad: true

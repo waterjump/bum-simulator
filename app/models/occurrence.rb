@@ -19,13 +19,11 @@ class Occurrence
   field :callback_method, type: Symbol
   field :prerequisite, type: String
   field :special, type: Boolean, default: false
+  field :force, type: Boolean, default: false
+  field :suppress, type: Boolean, default: false
 
-  def occur?(time, force_name = nil)
-    available?(time) &&
-      (
-        (1..1000).to_a.sample % chance == 0 ||
-        force_name == name
-      )
+  def occur?(time)
+    available?(time) && (1..1000).to_a.sample % chance == 0
   end
 
   def available?(time)
